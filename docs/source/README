@@ -1,0 +1,5 @@
+Run `sphinx-apidoc -o . ../../mystem-python' in this directory.
+
+This will generate `modules.rst' and `mystem-python.rst'.
+
+Then include `modules.rst' in your `index.rst' file.
