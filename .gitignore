@@ -35,7 +35,9 @@ pip-log.txt
 *.mo
 
 ## paver generated files
-/paver-minilib.zip# Created by http://www.gitignore.io
+/paver-minilib.zip
+
+# Created by http://www.gitignore.io
 
 ### Python ###
 # Byte-compiled / optimized / DLL files
@@ -99,7 +101,8 @@ target/
 .LSOverride
 
 # Icon must end with two \r
-Icon
+Icon
+
 
 # Thumbnails
 ._*

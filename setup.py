@@ -18,7 +18,7 @@ if 'check_output' not in dir(subprocess):
         return out
     subprocess.check_output = check_output
 
-from setuptools import setup, find_packages, Extension
+from setuptools import setup, find_packages
 from setuptools.command.test import test as TestCommand
 
 try:
@@ -164,7 +164,7 @@ def _lint():
     project_python_files = [filename for filename in get_project_files()
                             if filename.endswith(b'.py')]
     retcode = subprocess.call(
-        ['flake8', '--max-complexity=10'] + project_python_files)
+        ['flake8', '--max-complexity=10', '--ignore=E265', '--max-line-length=120'] + project_python_files)
     if retcode == 0:
         print_success_message('No style errors')
     return retcode
@@ -188,7 +188,10 @@ def _test_all():
 
     :return: exit code
     """
-    return _lint() + _test()
+    if sys.version_info >= (3, 3):
+        return _test()
+    else:
+        return _lint() + _test()
 
 
 # The following code is to allow tests to be run with `python setup.py test'.
@@ -211,15 +214,6 @@ class TestAllCommand(TestCommand):
 # define install_requires for specific Python versions
 python_version_specific_requires = []
 
-# as of Python >= 2.7 and >= 3.2, the argparse module is maintained within
-# the Python standard library, otherwise we install it as a separate package
-if sys.version_info < (2, 7) or (3, 0) <= sys.version_info < (3, 3):
-    python_version_specific_requires.append('argparse')
-
-
-mystem_ext = Extension('cmystem',
-                       sources = [os.path.join(CODE_DIRECTORY, 'cmystemmodule.c')])
-
 # See here for more options:
 # <http://pythonhosted.org/setuptools/setuptools.html>
 setup_dict = dict(
@@ -240,6 +234,7 @@ setup_dict = dict(
         'License :: OSI Approved :: MIT License',
         'Natural Language :: English',
         'Operating System :: OS Independent',
+        'Programming Language :: Python :: 2.6',
         'Programming Language :: Python :: 2.7',
         'Programming Language :: Python :: 3.3',
         'Programming Language :: Python :: 3.4',
@@ -249,26 +244,18 @@ setup_dict = dict(
     ],
     packages=find_packages(exclude=(TESTS_DIRECTORY,)),
     install_requires=[
-        # your module dependencies
+        'ujson',
+        'requests',
     ] + python_version_specific_requires,
     # Allow tests to be run with `python setup.py test'.
     tests_require=[
-        'pytest==2.5.1',
-        'mock==1.0.1',
-        'flake8==2.1.0',
+        'pytest>=2.5.1',
+        'mock>=1.0.1',
+        'flake8>=2.1.0',
     ],
-    ext_modules=[mystem_ext],
     cmdclass={'test': TestAllCommand},
     zip_safe=False,  # don't use eggs
-    entry_points={
-        'console_scripts': [
-            'mystem_python_cli = mystem_python.main:entry_point'
-        ],
-        # if you have a gui, use this
-        # 'gui_scripts': [
-        #     'mystem_python_gui = mystem_python.gui:entry_point'
-        # ]
-    }
+    use_2to3=True,
 )
 
 
