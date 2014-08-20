@@ -4,7 +4,6 @@
 from __future__ import print_function
 
 from itertools import ifilter, imap
-import fcntl
 import os
 import platform
 import re
@@ -19,7 +18,7 @@ else:
 
 import ujson as json
 
-from .constants import (MYSTEM_DIR, MYSTEM_BIN)
+from .constants import (MYSTEM_BIN, MYSTEM_EXE, MYSTEM_DIR)
 
 
 _TARBALL_URLS = {
@@ -38,7 +37,7 @@ _TARBALL_URLS = {
 }
 
 _NL = unicode('\n').encode('utf-8')
-
+_POSIX = os.name == 'posix'
 
 def autoinstall(out=sys.stderr):
     if os.path.isfile(MYSTEM_BIN):
@@ -48,7 +47,6 @@ def autoinstall(out=sys.stderr):
 
 def install(out=sys.stderr):
     import requests
-    import tarfile
     import tempfile
 
     url = _get_tarball_url()
@@ -66,8 +64,16 @@ def install(out=sys.stderr):
                 fd.write(chunk)
             fd.flush()
 
-        with tarfile.open(tmp_path) as tar:
-            tar.extract('mystem', MYSTEM_DIR)
+        if url.endswith('.tar.gz'):
+            import tarfile
+            with tarfile.open(tmp_path) as tar:
+                tar.extract(MYSTEM_EXE, MYSTEM_DIR)
+        elif url.endswith('.zip'):
+            import zipfile
+            with zipfile.ZipFile(tmp_path) as zip:
+                zip.extractall(MYSTEM_DIR)
+        else:
+            raise NotImplementedError("Could not install mystem from %s" % url)
     finally:
         os.unlink(tmp_path)
 
@@ -100,9 +106,11 @@ def _set_non_blocking(fd):
     """
     Set the file description of the given file descriptor to non-blocking.
     """
-    flags = fcntl.fcntl(fd, fcntl.F_GETFL)
-    flags = flags | os.O_NONBLOCK
-    fcntl.fcntl(fd, fcntl.F_SETFL, flags)
+    if _POSIX:
+        import fcntl
+        flags = fcntl.fcntl(fd, fcntl.F_GETFL)
+        flags = flags | os.O_NONBLOCK
+        fcntl.fcntl(fd, fcntl.F_SETFL, flags)
 
 
 class Mystem(object):
@@ -140,39 +148,62 @@ class Mystem(object):
                                       stdin=subprocess.PIPE,
                                       stdout=subprocess.PIPE,
                                       bufsize=0,
-                                      close_fds=True)
+                                      close_fds=True if _POSIX else False)
 
         self._procin, self._procout = self._proc.stdin, self._proc.stdout
         self._procout_no = self._procout.fileno()
         _set_non_blocking(self._procout)
 
-    def stemmize(self, text):
-        if isinstance(text, unicode):
-            text = text.encode('utf-8')
+    if _POSIX:
+        def stemmize(self, text):
+            if isinstance(text, unicode):
+                text = text.encode('utf-8')
 
-        if self._proc is None:
+            if self._proc is None:
+                self._start_mystem()
+
+            self._procin.write(text)
+            self._procin.write(_NL)
+            self._procin.flush()
+
+            sio = StringIO()
+            obj = None
+            select.select([self._procout_no], [], [])
+            while True:
+                try:
+                    out = self._procout.read()
+                    sio.write(out)
+                    obj = json.loads(sio.getvalue())
+                    break
+                except (IOError, ValueError):
+                    rd, _, _ = select.select([self._procout_no], [], [], 30)
+                    if self._procout_no not in rd:
+                        raise RuntimeError("Problem has been occured. Current state:\ntext:\n%s\nout:\n%s\nsio:\n%s" %
+                                           (text, out, sio.getvalue()))
+
+            return obj
+    else:
+        def stemmize(self, text):
+            if isinstance(text, unicode):
+                text = text.encode('utf-8')
+
+            if self._proc is not None:
+                self._proc.wait()
+                self._proc = None
+
             self._start_mystem()
 
-        self._procin.write(text)
-        self._procin.write(_NL)
-        self._procin.flush()
+            self._procin.write(text)
+            self._procin.write(_NL)
 
-        sio = StringIO()
-        obj = None
-        select.select([self._procout_no], [], [])
-        while True:
+            out, _ = self._proc.communicate()
             try:
-                out = self._procout.read()
-                sio.write(out)
-                obj = json.loads(sio.getvalue())
-                break
+                obj = json.loads(out)
             except (IOError, ValueError):
-                rd, _, _ = select.select([self._procout_no], [], [], 30)
-                if self._procout_no not in rd:
-                    raise RuntimeError("Problem has been occured. Current state:\ntext:\n%s\nout:\n%s\nsio:\n%s" %
-                                       (text, out, sio.getvalue()))
+                raise RuntimeError("Problem has been occured. Current state:\ntext:\n%s\nout:\n%s" %
+                                   (text, out))
 
-        return obj
+            return obj
 
     def lemmatize(self, text):
         need_encode = (sys.version_info[0] < 3 and isinstance(text, str))
