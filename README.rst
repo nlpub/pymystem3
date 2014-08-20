@@ -39,7 +39,7 @@ Installation
 .. * Documentation: http://injector.readthedocs.org
 
 
-#. Latest Version: https://github.com/Digsolab/pymystem3
+#. Latest version: https://github.com/Digsolab/pymystem3
 
 
 A Quick Example
