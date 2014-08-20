@@ -12,7 +12,7 @@ __copyright__ = metadata.copyright
 
 
 from ._mystem import (Mystem, autoinstall)  # noqa
-from .constants import (MYSTEM_BIN, MYSTEM_DIR, MYSTEM_EXE)
+from .constants import (MYSTEM_BIN, MYSTEM_DIR, MYSTEM_EXE)  # noqa
 
 
 def main():
