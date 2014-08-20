@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from mystem import Mystem
+from pymystem3 import Mystem
 
 
 class TestMystem(object):

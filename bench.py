@@ -7,7 +7,7 @@ import codecs
 import timeit
 import sys
 
-import mystem
+import pymystem3 as mystem
 import pymorphy2
 import pymorphy2.tokenizers
 
@@ -23,7 +23,7 @@ para_unicode = para
 _morph = pymorphy2.MorphAnalyzer()
 
 _mystem = mystem.Mystem(grammar_info=False, entire_input=True)
-_mystem.start_process()
+_mystem.start()
 
 
 def with_bench(func_name, profile=True):

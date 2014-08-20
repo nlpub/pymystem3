@@ -34,14 +34,14 @@ except ImportError:
 sys.path.append('.')
 
 ## Constants
-CODE_DIRECTORY = 'mystem'
+CODE_DIRECTORY = 'pymystem3'
 DOCS_DIRECTORY = 'docs'
 TESTS_DIRECTORY = 'tests'
 PYTEST_FLAGS = ['--doctest-modules']
 
 # Import metadata. Normally this would just be:
 #
-#     from mystem_python import metadata
+#     from pymystem3 import metadata
 #
 # However, when we do this, we also import `mystem_python/__init__.py'. If this
 # imports names from some other modules and these modules have third-party
@@ -244,7 +244,6 @@ setup_dict = dict(
     ],
     packages=find_packages(exclude=(TESTS_DIRECTORY,)),
     install_requires=[
-        'ujson',
         'requests',
     ] + python_version_specific_requires,
     # Allow tests to be run with `python setup.py test'.

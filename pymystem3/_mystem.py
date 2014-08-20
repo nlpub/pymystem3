@@ -16,7 +16,10 @@ if sys.version_info[0] < 3:
 else:
     from io import BytesIO as StringIO
 
-import ujson as json
+try:
+    import ujson as json
+except ImportError:
+    import json
 
 from .constants import (MYSTEM_BIN, MYSTEM_EXE, MYSTEM_DIR)
 
@@ -38,6 +41,7 @@ _TARBALL_URLS = {
 
 _NL = unicode('\n').encode('utf-8')
 _POSIX = os.name == 'posix'
+_PIPELINE_MODE = _POSIX and '__pypy__' not in sys.builtin_module_names
 
 
 def autoinstall(out=sys.stderr):
@@ -107,7 +111,7 @@ def _set_non_blocking(fd):
     """
     Set the file description of the given file descriptor to non-blocking.
     """
-    if _POSIX:
+    if _PIPELINE_MODE:
         import fcntl
         flags = fcntl.fcntl(fd, fcntl.F_GETFL)
         flags = flags | os.O_NONBLOCK
@@ -144,6 +148,9 @@ class Mystem(object):
         if self._entire_input is True:
             self._mystemargs.append('-c')
 
+    def start(self):
+        self._start_mystem()
+
     def _start_mystem(self):
         self._proc = subprocess.Popen([self._mystem_bin] + self._mystemargs,
                                       stdin=subprocess.PIPE,
@@ -155,7 +162,7 @@ class Mystem(object):
         self._procout_no = self._procout.fileno()
         _set_non_blocking(self._procout)
 
-    if _POSIX:
+    if _PIPELINE_MODE:
         def stem(self, text):
             if isinstance(text, unicode):
                 text = text.encode('utf-8')

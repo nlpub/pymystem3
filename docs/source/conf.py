@@ -22,7 +22,7 @@ import sys
 sys.path.insert(0, os.path.abspath('../..'))
 
 # Import project metadata
-from mystem import metadata
+from pymystem3 import metadata
 
 # -- General configuration ----------------------------------------------------
 

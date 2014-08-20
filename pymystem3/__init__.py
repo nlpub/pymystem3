@@ -2,7 +2,7 @@
 
 import sys
 
-from . import metadata
+from pymystem3 import metadata
 
 
 __version__ = metadata.version
