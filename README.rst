@@ -5,17 +5,7 @@
 Introduction
 ============
 
-This module contains a wrapper for an excellent morphological analyzer for Russian language [Yandex Mystem 3.0](http://api.yandex.ru/mystem/) released in June 2014. A morphological analyzer can perform lemmatization of text and derive a set of morphological attributes for each token. For instance,
-
-::
-
-Мама 
-мыла
-раму.
-
-::
-
-
+This module contains a wrapper for an excellent morphological analyzer for Russian language [Yandex Mystem 3.0](http://api.yandex.ru/mystem/) released in June 2014. A morphological analyzer can perform lemmatization of text and derive a set of morphological attributes for each token. 
 For more details about the algorithm see I. Segalovich «(A fast morphological algorithm with unknown word 
 guessing induced by a dictionary for a web search 
 engine)[http://download.yandex.ru/company/iseg-las-vegas.pdf]
@@ -27,7 +17,7 @@ The third version of Mystem introduces several importaint improvements, most imp
 
 This wrapper is open sources under LGPLv3 license. However, please consider that the Yandex Mystem is not open source and licensed under conditions of the (Yandex License)[http://legal.yandex.ru/mystem/].
 
-The current version can be considered as an alpha version, so please let us know if something does not work as expected. 
+The current version can be considered as an alpha version, so please let us know if something does not work as expected: https://github.com/Digsolab/pymystem3/issues. 
 
 
 System Requrements
@@ -42,15 +32,14 @@ The wrapper was tested on Ubuntu Linux, Mac OSX and Windows.
 Installation
 ====================
 
-#. GitHub (code repository, issues): https://github.com/Digsolab/pymystem3
-
-#. PyPI (installable, stable distributions): https://pypi.python.org/pypi/pymystem3. You can install it using pip::
+#. Stable version: https://pypi.python.org/pypi/pymystem3. You can install it using pip::
 
        pip install pymystem3
 
 .. * Documentation: http://injector.readthedocs.org
 
 
+#. Latest Version: https://github.com/Digsolab/pymystem3
 
 
 A Quick Example
