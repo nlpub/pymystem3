@@ -156,7 +156,7 @@ class Mystem(object):
         _set_non_blocking(self._procout)
 
     if _POSIX:
-        def stemmize(self, text):
+        def stem(self, text):
             if isinstance(text, unicode):
                 text = text.encode('utf-8')
 
@@ -184,7 +184,7 @@ class Mystem(object):
 
             return obj
     else:
-        def stemmize(self, text):
+        def stem(self, text):
             if isinstance(text, unicode):
                 text = text.encode('utf-8')
 
@@ -210,7 +210,7 @@ class Mystem(object):
         need_encode = (sys.version_info[0] < 3 and isinstance(text, str))
 
         text = re.sub(r"(\n|\r)", " ", text)
-        infos = self.stemmize(text)
+        infos = self.stem(text)
         lemmas = list(ifilter(None, imap(self._get_lemma, infos)))
 
         if need_encode is True:
