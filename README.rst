@@ -17,8 +17,6 @@ The third version of Mystem introduces several importaint improvements, most imp
 
 This wrapper is open sources under LGPLv3 license. However, please consider that the Yandex Mystem is not open source and licensed under conditions of the (Yandex License)[http://legal.yandex.ru/mystem/].
 
-The current version can be considered as an alpha version, so please let us know if something does not work as expected: https://github.com/Digsolab/pymystem3/issues. 
-
 
 System Requrements
 ===================
@@ -58,7 +56,8 @@ A Quick Example
 Issues
 ======
 
-Please report any bugs or requests that you have using the GitHub issue tracker!
+The current version can be considered as an alpha version, so please let us know if something does not work as expected. 
+Please report any bugs or requests that you have using the GitHub issue tracker (https://github.com/Digsolab/pymystem3/issues)!
 
 
 Authors
