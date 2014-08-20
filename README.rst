@@ -33,7 +33,7 @@ Installation
 
        pip install pymystem3
 
-.. * Documentation: http://injector.readthedocs.org
+.. * Documentation: http://pythonhosted.org/pymystem3
 
 
 #. Latest version: https://github.com/Digsolab/pymystem3
