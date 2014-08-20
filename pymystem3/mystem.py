@@ -8,7 +8,6 @@ from __future__ import print_function
 from itertools import ifilter, imap
 import os
 import platform
-import re
 import select
 import subprocess
 import sys
@@ -210,9 +209,10 @@ class Mystem(object):
         :rtype:         dict
         """
 
-        text = re.sub(r"(\n|\r)", " ", text)
-
-        return self._analyze_impl(text)
+        result = []
+        for line in text.splitlines():
+            result.extend(self._analyze_impl(line))
+        return result
 
     def lemmatize(self, text):
         """
