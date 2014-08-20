@@ -65,4 +65,4 @@ Authors
 =======
 
 * Denis Sukhonin <d.sukhonin@gmail.com>, engineering
-* Alexander Panchenko <panchenko.alexander#gmail.com>, conception, management
+* Alexander Panchenko <panchenko.alexander@gmail.com>, conception, management
