@@ -195,16 +195,14 @@ class Mystem(object):
             if isinstance(text, unicode):
                 text = text.encode('utf-8')
 
-            if self._proc is not None:
-                self._proc.wait()
-                self._proc = None
-
-            self._start_mystem()
+            if self._proc is None:
+                self._start_mystem()
 
             self._procin.write(text)
             self._procin.write(_NL)
 
             out, _ = self._proc.communicate()
+            self._proc = None
             try:
                 obj = json.loads(out)
             except (IOError, ValueError):
