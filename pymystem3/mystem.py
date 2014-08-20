@@ -210,6 +210,8 @@ class Mystem(object):
         :rtype:         dict
         """
 
+        text = re.sub(r"(\n|\r)", " ", text)
+
         return self._analyze_impl(text)
 
     def lemmatize(self, text):
@@ -224,7 +226,6 @@ class Mystem(object):
 
         need_encode = (sys.version_info[0] < 3 and isinstance(text, str))
 
-        text = re.sub(r"(\n|\r)", " ", text)
         infos = self.analyze(text)
         lemmas = list(ifilter(None, imap(self._get_lemma, infos)))
 

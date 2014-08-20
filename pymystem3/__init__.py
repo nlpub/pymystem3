@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from pymystem3 import metadata
+from . import metadata
 
 
 __version__ = metadata.version
@@ -9,5 +9,5 @@ __license__ = metadata.license
 __copyright__ = metadata.copyright
 
 
-from ._mystem import (Mystem, autoinstall)  # noqa
+from .mystem import (Mystem, autoinstall)  # noqa
 from .constants import (MYSTEM_BIN, MYSTEM_DIR, MYSTEM_EXE)  # noqa
