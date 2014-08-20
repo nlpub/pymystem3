@@ -1,7 +1,5 @@
 # -*- coding: utf-8 -*-
 
-import sys
-
 from pymystem3 import metadata
 
 
@@ -13,10 +11,3 @@ __copyright__ = metadata.copyright
 
 from ._mystem import (Mystem, autoinstall)  # noqa
 from .constants import (MYSTEM_BIN, MYSTEM_DIR, MYSTEM_EXE)  # noqa
-
-
-def main():
-    autoinstall(sys.stdout)
-
-if __name__ == '__main__':
-    main()

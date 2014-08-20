@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
-"""Wraps the Mystem"""
+"""
+A Python wrapper of the Yandex Mystem 3.0 morphological analyzer.
+"""
 
 from __future__ import print_function
 
@@ -45,12 +47,22 @@ _PIPELINE_MODE = _POSIX and '__pypy__' not in sys.builtin_module_names
 
 
 def autoinstall(out=sys.stderr):
+    """
+    Install mystem binary as :py:const:`~pymystem3.constants.MYSTEM_BIN`.
+    Do nothing if already installed.
+    """
+
     if os.path.isfile(MYSTEM_BIN):
         return
     install(out)
 
 
 def install(out=sys.stderr):
+    """
+    Install mystem binary as :py:const:`~pymystem3.constants.MYSTEM_BIN`.
+    Overwrite if already installed.
+    """
+
     import requests
     import tempfile
 
@@ -111,6 +123,7 @@ def _set_non_blocking(fd):
     """
     Set the file description of the given file descriptor to non-blocking.
     """
+
     if _PIPELINE_MODE:
         import fcntl
         flags = fcntl.fcntl(fd, fcntl.F_GETFL)
@@ -119,6 +132,25 @@ def _set_non_blocking(fd):
 
 
 class Mystem(object):
+
+    """
+    Wrap mystem binary to be able it use from Python.
+
+    The two main methods you may use are the :py:meth:`__init__` initializer,
+    and the :py:meth:`analyze` method to process your data and get mystem
+    output results.
+
+    :param  mystem_bin: path to mystem binary
+    :type   mystem_bin: str
+    :param  grammar_info: glue grammatical information for same lemmas in output.
+    :type   grammar_info: bool
+    :param  disambiguation: apply disambiguation
+    :type   disambiguation: bool
+    :param  entire_input: copy entire input to output
+    :type   entire_input: bool
+
+    .. note:: Default value of :py:attr:`mystem_bin` can be overwritted by :envvar:`MYSTEM_BIN`.
+    """
 
     def __init__(self, mystem_bin=None, grammar_info=True, disambiguation=True, entire_input=True):
         self._mystem_bin = mystem_bin
@@ -149,6 +181,12 @@ class Mystem(object):
             self._mystemargs.append('-c')
 
     def start(self):
+        """
+        Run mystem binary.
+
+        .. note:: It is not mandatory to call it. Use it if you want to avoid waiting for mystem loads.
+        """
+
         self._start_mystem()
 
     def _start_mystem(self):
@@ -162,8 +200,41 @@ class Mystem(object):
         self._procout_no = self._procout.fileno()
         _set_non_blocking(self._procout)
 
+    def analyze(self, text):
+        """
+        Make morphology analysis for a text.
+
+        :param  text:   text to analyze
+        :type   text:   str
+        :returns:       result of morphology analysis.
+        :rtype:         dict
+        """
+
+        return self._analyze_impl(text)
+
+    def lemmatize(self, text):
+        """
+        Make morphology analysis for a text and return list of lemmas.
+
+        :param  text:   text to analyze
+        :type   text:   str
+        :returns:       list of lemmas
+        :rtype:         list
+        """
+
+        need_encode = (sys.version_info[0] < 3 and isinstance(text, str))
+
+        text = re.sub(r"(\n|\r)", " ", text)
+        infos = self.analyze(text)
+        lemmas = list(ifilter(None, imap(self._get_lemma, infos)))
+
+        if need_encode is True:
+            lemmas = [l.encode('utf-8') for l in lemmas]
+
+        return lemmas
+
     if _PIPELINE_MODE:
-        def stem(self, text):
+        def _analyze_impl(self, text):
             if isinstance(text, unicode):
                 text = text.encode('utf-8')
 
@@ -191,7 +262,7 @@ class Mystem(object):
 
             return obj
     else:
-        def stem(self, text):
+        def _analyze_impl(self, text):
             if isinstance(text, unicode):
                 text = text.encode('utf-8')
 
@@ -210,18 +281,6 @@ class Mystem(object):
                                    (text, out))
 
             return obj
-
-    def lemmatize(self, text):
-        need_encode = (sys.version_info[0] < 3 and isinstance(text, str))
-
-        text = re.sub(r"(\n|\r)", " ", text)
-        infos = self.stem(text)
-        lemmas = list(ifilter(None, imap(self._get_lemma, infos)))
-
-        if need_encode is True:
-            lemmas = [l.encode('utf-8') for l in lemmas]
-
-        return lemmas
 
     @staticmethod
     def _get_lemma(o):

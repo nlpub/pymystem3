@@ -6,6 +6,7 @@ from __future__ import unicode_literals
 import codecs
 import timeit
 import sys
+import json  # noqa
 
 import pymystem3 as mystem
 import pymorphy2
@@ -68,14 +69,14 @@ def with_bench(func_name, profile=True):
 
 
 def war_and_peace():
-    for fname in ['book1.txt', 'book2.txt']:
-        with codecs.open(fname, 'r', 'windows-1251') as f:
+    for fname in ['warandpeace.txt']:
+        with codecs.open(fname, 'r', 'utf-8') as f:
             # text = f.read()
             # lemmas = using_mystem(text.encode('utf-8'))
             # for t in using_mystem(text):
             #     sys.stdout.write(t)
             for line in f.xreadlines():
-                for t in using_mystem(line.decode('windows-1251')):
+                for t in using_mystem(line.decode('utf-8')):
                     if isinstance(t, basestring):
                         sys.stdout.write(t)
 
@@ -83,11 +84,14 @@ def war_and_peace():
 def from_stdin():
     for line in sys.stdin:
         line = line.strip()
+        if not line:
+            continue
         ts = using_mystem(line)
         # print json.dumps(ts, ensure_ascii=False)
-        print 'mystem tokens=\t', ''.join(ts)
+        print 'mystem tokens=\t\t', str('').join(ts).strip()
         ts = using_pymorphy(line.decode('utf-8'))
         print 'pymorphy tokens=\t', ' '.join(ts)
+        print
 
 
 def using_mystem(text=para_unicode):
@@ -106,14 +110,14 @@ def using_pymorphy(text=para_unicode):
 
 
 def main():
-    # print("Stdin")
-    # from_stdin()
+    print("Stdin")
+    from_stdin()
     # print('Война и Мир')
     # war_and_peace()
-    with_bench('using_pymorphy', profile=True)
-    print ' '.join(using_pymorphy())
-    with_bench('using_mystem', profile=True)
-    print ''.join(using_mystem())
+    # with_bench('using_pymorphy', profile=True)
+    # print ' '.join(using_pymorphy())
+    # with_bench('using_mystem', profile=True)
+    # print ''.join(using_mystem())
 
 if __name__ == '__main__':
     main()
