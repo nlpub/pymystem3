@@ -64,4 +64,5 @@ Please report any bugs or requests that you have using the GitHub issue tracker!
 Authors
 =======
 
-* Denis Sukhonin <d.sukhonin@gmail.com>
+* Denis Sukhonin <d.sukhonin@gmail.com>, engineering
+* Alexander Panchenko <panchenko.alexander#gmail.com>, conception, management
