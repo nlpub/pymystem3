@@ -23,9 +23,9 @@ The current version can be considered as an alpha version, so please let us know
 System Requrements
 ===================
 
-pymystem3 works with CPython 2.6+/3.3+ and PyPy 1.9+.
+The wrapper works with CPython 2.6+/3.3+ and PyPy 1.9+.
 
-The wrapper was tested on Ubuntu Linux, Mac OSX and Windows. 
+The wrapper was tested on Ubuntu Linux 12.04+, Mac OSX 10.9+ and Windows 7+. 
 
 
 
