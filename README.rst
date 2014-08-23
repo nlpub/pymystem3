@@ -10,11 +10,11 @@ A morphological analyzer can perform lemmatization of text and derive a set of m
 For more details about the algorithm see I. Segalovich `«A fast morphological algorithm with unknown word guessing induced by a dictionary for a web search
 engine» <http://download.yandex.ru/company/iseg-las-vegas.pdf>`_, MLMTA-2003, Las Vegas, Nevada, USA.
 
-Python is the language of choice for many computational linguists, inlcluding those working with Russian language. The main motivation for this development was absence of any Python wrapper for the Mystem, a one of the most popular morphological analyzers for Russian language along with the `PyMorphy2 <https://github.com/kmike/pymorphy2>`_, the `TreeTagger <http://corpus.leeds.ac.uk/mocky/>`_ and `AOT <http://www.aot.ru/download.php>`_.
+Python is the language of choice for many computational linguists, including those working with Russian language. The main motivation for this development was absence of any Python wrapper for the Mystem, a one of the most popular morphological analyzers for Russian language along with the `PyMorphy2 <https://github.com/kmike/pymorphy2>`_, the `TreeTagger <http://corpus.leeds.ac.uk/mocky/>`_ and `AOT <http://www.aot.ru/download.php>`_.
 
 The third version of Mystem introduces several importaint improvements, most importaintly part-of-speech disambiguation. Our wrapper runs the Mystem in the mode which performs POS disambiguation.
 
-This wrapper is open sources under LGPLv3 license. However, please consider that the Yandex Mystem is not open source and licensed under conditions of the `Yandex License  <http://legal.yandex.ru/mystem/>`_.
+This wrapper is open sources under MIT license. However, please consider that the Yandex Mystem is not open source and licensed under conditions of the `Yandex License  <http://legal.yandex.ru/mystem/>`_.
 
 
 System Requrements
@@ -31,7 +31,7 @@ Installation
 
 #. Stable version: https://pypi.python.org/pypi/pymystem3. You can install it using pip::
 
-       pip install pymystem3
+    pip install pymystem3
 
 .. * Documentation: http://pythonhosted.org/pymystem3
 
