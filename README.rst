@@ -29,14 +29,14 @@ The wrapper was tested on Ubuntu Linux 12.04+, Mac OSX 10.9+ and Windows 7+.
 Installation
 ====================
 
-#. Stable version: https://pypi.python.org/pypi/pymystem3. You can install it using pip::
+1. Stable version: https://pypi.python.org/pypi/pymystem3. You can install it using pip::
 
     pip install pymystem3
 
 .. * Documentation: http://pythonhosted.org/pymystem3
 
 
-#. Latest version: https://github.com/Digsolab/pymystem3
+2. Latest version: https://github.com/Digsolab/pymystem3
 
 
 A Quick Example
