@@ -253,7 +253,7 @@ class Mystem(object):
                 try:
                     out = self._procout.read()
                     sio.write(out)
-                    obj = json.loads(sio.getvalue())
+                    obj = json.loads(sio.getvalue().decode('utf-8'))
                     break
                 except (IOError, ValueError):
                     rd, _, _ = select.select([self._procout_no], [], [], 30)
