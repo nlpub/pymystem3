@@ -82,12 +82,18 @@ def install(out=sys.stderr):
 
         if url.endswith('.tar.gz'):
             import tarfile
-            with tarfile.open(tmp_path) as tar:
+            tar = tarfile.open(tmp_path)
+            try:
                 tar.extract(MYSTEM_EXE, MYSTEM_DIR)
+            finally:
+                tar.close()
         elif url.endswith('.zip'):
             import zipfile
-            with zipfile.ZipFile(tmp_path) as zip:
+            zip = zipfile.ZipFile(tmp_path)
+            try:
                 zip.extractall(MYSTEM_DIR)
+            finally:
+                zip.close()
         else:
             raise NotImplementedError("Could not install mystem from %s" % url)
     finally:
