@@ -2,6 +2,10 @@
  A Python wrapper of the Yandex Mystem 3.0 morphological analyzer
 ==================================================================
 
+.. image:: https://travis-ci.org/Digsolab/pymystem3.png?branch=master
+    :target: http://travis-ci.org/Digsolab/pymystem3
+    :alt: Build Status
+
 Introduction
 ============
 
