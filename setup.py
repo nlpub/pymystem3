@@ -5,6 +5,7 @@ import os
 import sys
 import imp
 import subprocess
+import codecs
 
 ## Python 2.6 subprocess.check_output compatibility. Thanks Greg Hewgill!
 if 'check_output' not in dir(subprocess):
@@ -149,7 +150,7 @@ def read(filename):
     :return: the file's content
     :rtype: :class:`str`
     """
-    with open(os.path.join(os.path.dirname(__file__), filename)) as f:
+    with codecs.open(os.path.join(os.path.dirname(__file__), filename), 'r', 'utf-8') as f:
         return f.read()
 
 
