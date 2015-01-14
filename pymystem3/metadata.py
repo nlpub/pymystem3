@@ -14,5 +14,5 @@ authors = ['Denis Sukhonin']
 authors_string = ', '.join(authors)
 emails = ['d.sukhonin@gmail.com']
 license = 'MIT'
-copyright = '2013, 2014 ' + authors_string
+copyright = '2013, 2014, 2015 ' + authors_string
 url = 'https://github.com/Digsolab/pymystem3'
