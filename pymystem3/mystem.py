@@ -199,6 +199,16 @@ class Mystem(object):
 
         self._start_mystem()
 
+    def close(self):
+        if self._proc is not None:
+            self._proc.terminate()
+            self._proc.wait()
+
+        self._procin = None
+        self._procout = None
+        self._procout_no = None
+        self._proc = None
+
     def _start_mystem(self):
         self._proc = subprocess.Popen([self._mystem_bin] + self._mystemargs,
                                       stdin=subprocess.PIPE,
