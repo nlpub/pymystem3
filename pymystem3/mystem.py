@@ -44,7 +44,7 @@ _NL = unicode('\n').encode('utf-8')
 _POSIX = os.name == 'posix'
 
 _PIPELINE_MODE = False
-if '__pypy__' in sys.builtin_module_names:
+if _POSIX and '__pypy__' in sys.builtin_module_names:
     _PIPELINE_MODE = sys.pypy_version_info >= (2, 5, 0)
 elif _POSIX:
     _PIPELINE_MODE = True
