@@ -282,7 +282,8 @@ class Mystem(object):
             out, _ = self._proc.communicate()
             self._proc = None
             try:
-                obj = json.loads(out)
+                #obj = json.loads(out)
+                obj = json.loads(out.decode('utf-8'))
             except (IOError, ValueError):
                 raise RuntimeError("Problem has been occured. Current state:\ntext:\n%s\nout:\n%s" %
                                    (text, out))
