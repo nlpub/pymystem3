@@ -42,7 +42,12 @@ _TARBALL_URLS = {
 
 _NL = unicode('\n').encode('utf-8')
 _POSIX = os.name == 'posix'
-_PIPELINE_MODE = _POSIX and '__pypy__' not in sys.builtin_module_names
+
+_PIPELINE_MODE = False
+if '__pypy__' in sys.builtin_module_names:
+    _PIPELINE_MODE = sys.pypy_version_info >= (2, 5, 0)
+elif _POSIX:
+    _PIPELINE_MODE = True
 
 
 def autoinstall(out=sys.stderr):
@@ -253,6 +258,7 @@ class Mystem(object):
             self._procin.flush()
 
             sio = StringIO()
+            out = None
             obj = None
             select.select([self._procout_no], [], [])
             while True:
@@ -264,7 +270,7 @@ class Mystem(object):
                 except (IOError, ValueError):
                     rd, _, _ = select.select([self._procout_no], [], [], 30)
                     if self._procout_no not in rd:
-                        raise RuntimeError("Problem has been occured. Current state:\ntext:\n%s\nout:\n%s\nsio:\n%s" %
+                        raise RuntimeError("Problem has been occured. Current state:\ntext:\n%r\nout:\n%r\nsio:\n%r" %
                                            (text, out, sio.getvalue()))
 
             return obj
@@ -285,7 +291,7 @@ class Mystem(object):
                 #obj = json.loads(out)
                 obj = json.loads(out.decode('utf-8'))
             except (IOError, ValueError):
-                raise RuntimeError("Problem has been occured. Current state:\ntext:\n%s\nout:\n%s" %
+                raise RuntimeError("Problem has been occured. Current state:\ntext:\n%r\nout:\n%r" %
                                    (text, out))
 
             return obj
