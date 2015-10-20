@@ -86,5 +86,7 @@ Please report any bugs or requests that you have using the GitHub issue tracker 
 Authors
 =======
 
-* Denis Sukhonin <d.sukhonin@gmail.com>
-* Alexander Panchenko <panchenko.alexander@gmail.com>
+* Denis Sukhonin (d.sukhonin)
+* Alexander Panchenko (panchenko.alexander)
+
+@ gmail
