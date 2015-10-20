@@ -61,8 +61,9 @@ Lemmatization
 Getting grammatical information and lemmas.
 
 :: 
-    import json
-    from pymystem3 import Mystem
+
+    >>> import json
+    >>> from pymystem3 import Mystem
     
     text = "Красивая мама красиво мыла раму"
     m = Mystem()
