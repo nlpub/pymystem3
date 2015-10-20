@@ -65,13 +65,16 @@ Getting grammatical information and lemmas.
     >>> import json
     >>> from pymystem3 import Mystem
     
-    text = "Красивая мама красиво мыла раму"
-    m = Mystem()
-    lemmas = m.lemmatize(text)
+    >>> text = "Красивая мама красиво мыла раму"
+    >>> m = Mystem()
+    >>> lemmas = m.lemmatize(text)
     
-    print "lemmas:", ''.join(lemmas)
-    print "full info:", json.dumps(m.analyze(text), ensure_ascii=False, encoding='utf8')
+    >>> print "lemmas:", ''.join(lemmas)
+    >>> print "full info:", json.dumps(m.analyze(text), ensure_ascii=False, encoding='utf8')
+    
+    lemmas: красивый мама красиво мыть рама
 
+    full info: [{"text": "Красивая", "analysis": [{"lex": "красивый", "gr": "A=им,ед,полн,жен"}]}, {"text": " "}, {"text": "мама", "analysis": [{"lex": "мама", "gr": "S,жен,од=им,ед"}]}, {"text": " "}, {"text": "красиво", "analysis": [{"lex": "красиво", "gr": "ADV="}]}, {"text": " "}, {"text": "мыла", "analysis": [{"lex": "мыть", "gr": "V,несов,пе=прош,ед,изъяв,жен"}]}, {"text": " "}, {"text": "раму", "analysis": [{"lex": "рама", "gr": "S,жен,неод=вин,ед"}]}, {"text": "\n"}]
 
 Issues
 ======
