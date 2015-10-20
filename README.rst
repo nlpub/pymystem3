@@ -46,6 +46,9 @@ Installation
 A Quick Example
 ===============
 
+
+Lemmatization
+
 ::
 
     >>> from pymystem3 import Mystem
@@ -54,6 +57,19 @@ A Quick Example
     >>> lemmas = m.lemmatize(text)
     >>> print(''.join(lemmas))
     красивый мама красиво мыть рама
+
+Getting grammatical information and lemmas.
+
+:: 
+    import json
+    from pymystem3 import Mystem
+    
+    text = "Красивая мама красиво мыла раму"
+    m = Mystem()
+    lemmas = m.lemmatize(text)
+    
+    print "lemmas:", ''.join(lemmas)
+    print "full info:", json.dumps(m.analyze(text), ensure_ascii=False, encoding='utf8')
 
 
 Issues
