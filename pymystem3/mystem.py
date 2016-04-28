@@ -190,6 +190,9 @@ class Mystem(object):
         if self._entire_input is True:
             self._mystemargs.append('-c')
 
+    def __del__(self):
+        self.close()  # terminate process on exit
+
     def start(self):
         """
         Run mystem binary.
