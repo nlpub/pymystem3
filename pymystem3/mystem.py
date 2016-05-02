@@ -193,6 +193,14 @@ class Mystem(object):
     def __del__(self):
         self.close()  # terminate process on exit
 
+    def __enter__(self):
+        if self._proc is None:
+            self.start()
+        return self
+
+    def __exit__(self, exc_type, exc_val, exc_tb):
+        self.close()
+
     def start(self):
         """
         Run mystem binary.
