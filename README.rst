@@ -42,6 +42,7 @@ Installation
 
 2. Latest version: https://github.com/Digsolab/pymystem3
 
+    pip install git+https://github.com/nlpub/pymystem3
 
 A Quick Example
 ===============
@@ -79,14 +80,17 @@ Getting grammatical information and lemmas.
 Issues
 ======
 
-The current version can be considered as an alpha version, so please let us know if something does not work as expected.
-Please report any bugs or requests that you have using the GitHub issue tracker (https://github.com/Digsolab/pymystem3/issues)!
-
+Please report any bugs or requests that you have using the GitHub issue tracker (https://github.com/nlpub/pymystem3/issues)!
+We have only very limited amount of resources to maintain this project: please propose a pull request directly if you see an obvious way of fixing the issue. We are very open to accepting bug fixes and your help is greatly appreciated.
 
 Authors
 =======
 
-* Denis Sukhonin (d.sukhonin)
-* Alexander Panchenko (panchenko.alexander)
+The full list of contributors is listed by Github. You can also contact the original contributors of the project via email:
+
+* Denis Sukhonin (d.sukhonin): development
+* Alexander Panchenko (panchenko.alexander): conception
 
 @ gmail
+
+If you are interested in further developments or becoming a maintainter of this project please drop us an email: your help is greatly appreciated.
