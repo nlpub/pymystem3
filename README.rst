@@ -29,7 +29,6 @@ The wrapper works with CPython 2.6+/3.3+ and PyPy 1.9+.
 The wrapper was tested on Ubuntu Linux 12.04+, Mac OSX 10.9+ and Windows 7+.
 
 
-
 Installation
 ====================
 
@@ -40,7 +39,7 @@ Installation
 .. * Documentation: http://pythonhosted.org/pymystem3
 
 
-2. Latest version: https://github.com/Digsolab/pymystem3
+2. Latest version (recommended): https://github.com/nlpub/pymystem3::
 
     pip install git+https://github.com/nlpub/pymystem3
 
