@@ -211,8 +211,10 @@ class Mystem(object):
 
     def close(self):
         if self._proc is not None:
-            self._proc.terminate()
-            self._proc.wait()
+            self._proc.terminate()  # Send TERM signal to process
+            self._procin.close()  # Then close stdin
+            self._procout.close()  # And stdout
+            self._proc.wait()  # Finally wait for terminaion
 
         self._procin = None
         self._procout = None
