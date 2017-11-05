@@ -20,8 +20,8 @@ MarkupSafe==0.18
 Pygments==1.6
 
 # Miscellaneous
-Paver==1.2.1
-colorama==0.2.7
+Paver==1.2.4
+colorama==0.3.9
 
 pymorphy2
 pymorphy2-dicts
