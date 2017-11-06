@@ -2,8 +2,8 @@
 --requirement requirements.txt
 
 # Testing
-pytest==2.5.1
-py==1.4.19
+pytest==3.2.3
+py==1.4.34
 mock==1.0.1
 
 # Linting
@@ -20,8 +20,8 @@ MarkupSafe==0.18
 Pygments==1.6
 
 # Miscellaneous
-Paver==1.2.1
-colorama==0.2.7
+Paver==1.2.4
+colorama==0.3.9
 
 pymorphy2
 pymorphy2-dicts
