@@ -8,7 +8,7 @@ Information describing the project.
 package = 'pymystem3'
 project = "Python MyStem 3"
 project_no_spaces = project.replace(' ', '-')
-version = '0.1.6'
+version = '0.1.7'
 description = 'Python wrapper for the Yandex MyStem 3.0 morpholocial analyzer of the Russian language.'
 authors = ['Denis Sukhonin', 'Alexander Panchenko', 'Daniel Brshatsky', 'Andy Fefelov']
 authors_string = ', '.join(authors)
