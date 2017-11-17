@@ -43,11 +43,11 @@ _TARBALL_URLS = {
 _NL = unicode('\n').encode('utf-8')
 _POSIX = os.name == 'posix'
 
-_PIPELINE_MODE = (
-    '__pypy__' not in sys.builtin_module_names
-    or sys.pypy_version_info >= (2, 5, 0)
-)
-
+_PIPELINE_MODE = False
+if _POSIX and '__pypy__' in sys.builtin_module_names:
+    _PIPELINE_MODE = sys.pypy_version_info >= (2, 5, 0)
+elif _POSIX:
+    _PIPELINE_MODE = True
 
 def autoinstall(out=sys.stderr):
     """
