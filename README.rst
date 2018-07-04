@@ -1,5 +1,5 @@
 ==================================================================
- A Python wrapper of the Yandex Mystem 3.0 morphological analyzer
+ A Python wrapper of the Yandex Mystem 3.1 morphological analyzer
 ==================================================================
 
 .. image:: https://travis-ci.org/nlpub/pymystem3.png?branch=master
@@ -9,7 +9,7 @@
 Introduction
 ============
 
-This module contains a wrapper for an excellent morphological analyzer for Russian language `Yandex Mystem 3.0 <http://api.yandex.ru/mystem/>`_ released in June 2014.
+This module contains a wrapper for an excellent morphological analyzer for Russian language `Yandex Mystem 3.1 <https://tech.yandex.ru/mystem/>`_ released in June 2014.
 A morphological analyzer can perform lemmatization of text and derive a set of morphological attributes for each token.
 For more details about the algorithm see I. Segalovich `«A fast morphological algorithm with unknown word guessing induced by a dictionary for a web search
 engine» <http://download.yandex.ru/company/iseg-las-vegas.pdf>`_, MLMTA-2003, Las Vegas, Nevada, USA.
@@ -27,6 +27,8 @@ System Requrements
 The wrapper works with CPython 2.6+/3.3+ and PyPy 1.9+.
 
 The wrapper was tested on Ubuntu Linux 12.04+, Mac OSX 10.9+ and Windows 7+.
+
+For 32bit architectures and freebsd platform support use ver. 0.1.10.
 
 
 Installation

@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-A Python wrapper of the Yandex Mystem 3.0 morphological analyzer.
+A Python wrapper of the Yandex Mystem 3.1 morphological analyzer.
 """
 
 from __future__ import print_function
@@ -27,17 +27,12 @@ from .constants import (MYSTEM_BIN, MYSTEM_EXE, MYSTEM_DIR)
 
 _TARBALL_URLS = {
     'linux': {
-        '32bit': "http://download.cdn.yandex.net/mystem/mystem-3.0-linux3.5-32bit.tar.gz",
-        '64bit': "http://download.cdn.yandex.net/mystem/mystem-3.0-linux3.1-64bit.tar.gz",
+        '64bit': "http://download.cdn.yandex.net/mystem/mystem-3.1-linux-64bit.tar.gz",
     },
-    'darwin': "http://download.cdn.yandex.net/mystem/mystem-3.0-macosx10.8.tar.gz",
+    'darwin': "http://download.cdn.yandex.net/mystem/mystem-3.1-macosx.tar.gz",
     'win': {
-        '32bit': "http://download.cdn.yandex.net/mystem/mystem-3.0-win7-32bit.zip",
-        '64bit': "http://download.cdn.yandex.net/mystem/mystem-3.0-win7-64bit.zip",
+        '64bit': "http://download.cdn.yandex.net/mystem/mystem-3.1-win-64bit.zip",
     },
-    'freebsd': {
-        '64bit': "http://download.cdn.yandex.net/mystem/mystem-3.0-freebsd9.0-64bit.tar.gz",
-    }
 }
 
 _NL = unicode('\n').encode('utf-8')
