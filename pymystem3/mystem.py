@@ -156,16 +156,27 @@ class Mystem(object):
     :type   entire_input: bool
     :param  weight: print context-independent lemma weight
     :type   weight: bool
+    :param  generate_all: generate all possible hypotheses
+    :type   generate_all: bool
 
     .. note:: Default value of :py:attr:`mystem_bin` can be overwritted by :envvar:`MYSTEM_BIN`.
     """
 
-    def __init__(self, mystem_bin=None, grammar_info=True, disambiguation=True, entire_input=True, weight=True):
+    def __init__(
+        self,
+        mystem_bin=None,
+        grammar_info=True,
+        disambiguation=True,
+        entire_input=True,
+        weight=True,
+        generate_all=False
+    ):
         self._mystem_bin = mystem_bin
         self._grammar_info = grammar_info
         self._disambiguation = disambiguation
         self._entire_input = entire_input
         self._weight = weight
+        self._generate_all = generate_all
         self._procin = None
         self._procout = None
         self._procout_no = None
@@ -191,6 +202,9 @@ class Mystem(object):
 
         if self._weight is True:
             self._mystemargs.append('--weight')
+
+        if self._generate_all is True:
+            self._mystemargs.append('--generate-all')
 
     def __del__(self):
         self.close()  # terminate process on exit
@@ -323,9 +337,7 @@ class Mystem(object):
 
     @staticmethod
     def _get_lemma(o):
-        lemma = None
         try:
-            lemma = o['analysis'][0]['lex']
+            return o['analysis'][0]['lex']
         except (KeyError, IndexError):
-            lemma = o['text'] if 'text' in o else None
-        return lemma
+            return o['text'] if 'text' in o else None
