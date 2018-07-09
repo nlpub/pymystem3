@@ -309,7 +309,7 @@ class Mystem(object):
                 except (IOError, ValueError):
                     rd, _, _ = select.select([self._procout_no], [], [], 30)
                     if self._procout_no not in rd:
-                        raise RuntimeError("Problem has been ocurred. Current state:\ntext:\n%r\nout:\n%r\nsio:\n%r" %
+                        raise RuntimeError("Problem has been occured. Current state:\ntext:\n%r\nout:\n%r\nsio:\n%r" %
                                            (text, out, sio.getvalue()))
 
             return obj
