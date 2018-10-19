@@ -261,7 +261,12 @@ class Mystem(object):
 
         result = []
         for line in text.splitlines():
-            result.extend(self._analyze_impl(line))
+            try:
+                result.extend(self._analyze_impl(line))
+            except BrokenPipeError:
+                self.close()
+                self.start()
+                result.extend(self._analyze_impl(line))
         return result
 
     def lemmatize(self, text):
