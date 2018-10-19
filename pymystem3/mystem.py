@@ -11,6 +11,7 @@ import platform
 import select
 import subprocess
 import sys
+import socket
 
 if sys.version_info[0] < 3:
     from cStringIO import StringIO
@@ -23,6 +24,11 @@ except ImportError:
     import json
 
 from .constants import (MYSTEM_BIN, MYSTEM_EXE, MYSTEM_DIR)
+
+try:
+    broken_pipe = BrokenPipeError
+except NameError:
+    broken_pipe = socket.error
 
 
 _TARBALL_URLS = {
@@ -261,7 +267,12 @@ class Mystem(object):
 
         result = []
         for line in text.splitlines():
-            result.extend(self._analyze_impl(line))
+            try:
+                result.extend(self._analyze_impl(line))
+            except broken_pipe:
+                self.close()
+                self.start()
+                result.extend(self._analyze_impl(line))
         return result
 
     def lemmatize(self, text):
