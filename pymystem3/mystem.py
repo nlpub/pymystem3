@@ -164,6 +164,8 @@ class Mystem(object):
     :type   weight: bool
     :param  generate_all: generate all possible hypotheses
     :type   generate_all: bool
+    :param  fixlist: path to a custom dictionary to use for analysis
+    :type   fixlist: str
 
     .. note:: Default value of :py:attr:`mystem_bin` can be overwritted by :envvar:`MYSTEM_BIN`.
     """
@@ -175,7 +177,8 @@ class Mystem(object):
         disambiguation=True,
         entire_input=True,
         weight=True,
-        generate_all=False
+        generate_all=False,
+        fixlist=None
     ):
         self._mystem_bin = mystem_bin
         self._grammar_info = grammar_info
@@ -183,6 +186,7 @@ class Mystem(object):
         self._entire_input = entire_input
         self._weight = weight
         self._generate_all = generate_all
+        self._fixlist = fixlist
         self._procin = None
         self._procout = None
         self._procout_no = None
@@ -211,6 +215,9 @@ class Mystem(object):
 
         if self._generate_all is True:
             self._mystemargs.append('--generate-all')
+
+        if self._fixlist is not None:
+            self._mystemargs.append('--fixlist ' + self._fixlist)
 
     def __del__(self):
         self.close()  # terminate process on exit
