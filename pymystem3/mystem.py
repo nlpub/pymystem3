@@ -217,7 +217,8 @@ class Mystem(object):
             self._mystemargs.append('--generate-all')
 
         if self._fixlist is not None:
-            self._mystemargs.append('--fixlist ' + self._fixlist)
+            self._mystemargs.append('--fixlist')
+            self._mystemargs.append(self._fixlist)
 
     def __del__(self):
         self.close()  # terminate process on exit
