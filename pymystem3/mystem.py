@@ -166,8 +166,8 @@ class Mystem(object):
     :type   generate_all: bool
     :param  fixlist: path to a custom dictionary to use for analysis
     :type   fixlist: str
-    :param  english_gr: english names of grammems
-    :type   english_gr: bool
+    :param  use_english_names: english names of grammemes
+    :type   use_english_names: bool
 
     .. note:: Default value of :py:attr:`mystem_bin` can be overwritted by :envvar:`MYSTEM_BIN`.
     """
@@ -181,7 +181,7 @@ class Mystem(object):
         weight=True,
         generate_all=False,
         fixlist=None,
-        english_gr=False
+        use_english_names=False
     ):
         self._mystem_bin = mystem_bin
         self._grammar_info = grammar_info
@@ -190,7 +190,7 @@ class Mystem(object):
         self._weight = weight
         self._generate_all = generate_all
         self._fixlist = fixlist
-        self._english_gr = english_gr
+        self._use_english_names = use_english_names
         self._procin = None
         self._procout = None
         self._procout_no = None
@@ -224,7 +224,7 @@ class Mystem(object):
             self._mystemargs.append('--fixlist')
             self._mystemargs.append(self._fixlist)
             
-        if self._english_gr is True:
+        if self._use_english_names is True:
             self._mystemargs.append('--eng-gr')
 
     def __del__(self):
