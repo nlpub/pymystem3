@@ -158,17 +158,17 @@ class Mystem(object):
     :type   mystem_bin: str
     :param  grammar_info: glue grammatical information for same lemmas in output.
     :type   grammar_info: bool
-    :param  disambiguation: apply disambiguation
+    :param  disambiguation: apply disambiguation (-d)
     :type   disambiguation: bool
-    :param  entire_input: copy entire input to output
+    :param  entire_input: copy entire input to output (-c)
     :type   entire_input: bool
-    :param  weight: print context-independent lemma weight
+    :param  weight: print context-independent lemma weight (--weight)
     :type   weight: bool
-    :param  generate_all: generate all possible hypotheses
+    :param  generate_all: generate all possible hypotheses (--generate-all)
     :type   generate_all: bool
-    :param  fixlist: path to a custom dictionary to use for analysis
+    :param  fixlist: path to a custom dictionary to use for analysis (--fixlist)
     :type   fixlist: str
-    :param  use_english_names: english names of grammemes
+    :param  use_english_names: english names of grammemes (--eng-gr)
     :type   use_english_names: bool
 
     .. note:: Default value of :py:attr:`mystem_bin` can be overwritted by :envvar:`MYSTEM_BIN`.
