@@ -338,7 +338,7 @@ class Mystem(object):
                     rd, _, _ = select.select([self._procout_no], [], [], 30)
                     if self._procout_no not in rd:
                         raise RuntimeError("Problem has been occured. Current state:\ntext:\n%r\nout:\n%r\nsio:\n%r" %
-                                           (text, out, sio.getvalue()))
+                                           (text[0:2000], out[0:2000], sio.getvalue()))
 
             return obj
     else:
@@ -359,7 +359,7 @@ class Mystem(object):
                 obj = json.loads(out.decode('utf-8'))
             except (IOError, ValueError):
                 raise RuntimeError("Problem has been occured. Current state:\ntext:\n%r\nout:\n%r" %
-                                   (text, out))
+                                   (text[0:2000], out[0:2000]))
 
             return obj
 
