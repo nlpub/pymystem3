@@ -33,10 +33,12 @@ except NameError:
 
 _TARBALL_URLS = {
     'linux': {
+        '32bit': "http://download.cdn.yandex.net/mystem/mystem-3.0-linux3.5-32bit.tar.gz",
         '64bit': "http://download.cdn.yandex.net/mystem/mystem-3.1-linux-64bit.tar.gz",
     },
     'darwin': "http://download.cdn.yandex.net/mystem/mystem-3.1-macosx.tar.gz",
     'win': {
+        '32bit': "http://download.cdn.yandex.net/mystem/mystem-3.0-win7-32bit.zip",
         '64bit': "http://download.cdn.yandex.net/mystem/mystem-3.1-win-64bit.zip",
     },
 }
