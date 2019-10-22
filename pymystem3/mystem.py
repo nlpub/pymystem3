@@ -428,3 +428,17 @@ class Mystem(object):
             if line:
                 obj.extend(json.loads(line))
         return obj
+
+    @staticmethod
+    def get_printable_repr(token):
+        """ Get string with results of Mystem parsing for token in human readable representation. """
+
+        if 'analysis' not in token:
+            return 'sep: ' + repr(token['text'])
+
+        hypotheses = token['analysis']
+        s = 'lex: {:13} [{}]:'.format(repr(token['text']), len(hypotheses))
+        variants = (' {}:{}:{}:{}'.format(h['lex'], h.get('qual', ''), h.get('wt', ''), h.get('gr', '')) for h in hypotheses)
+        tab = len(s)
+        s += ('\n' + ' ' * tab).join(variants)
+        return s
