@@ -221,32 +221,32 @@ class Mystem(object):
 
         self._mystemargs = ["--format", "json"]
 
-        if self._grammar_info is True:
+        if self._grammar_info:
             self._mystemargs.append('-i')
-        if self._glue_grammar_info is True:
+        if self._glue_grammar_info:
             self._mystemargs.append('-g')
 
-        if self._disambiguation is True:
+        if self._disambiguation:
             self._mystemargs.append('-d')
 
-        if self._entire_input is True:
+        if self._entire_input:
             self._mystemargs.append('-c')
-        if self._no_bastards is True:
+        if self._no_bastards:
             self._mystemargs.append('-w')
         if self._end_of_sentence:
             self._mystemargs.append('-s')
 
-        if self._weight is True:
+        if self._weight:
             self._mystemargs.append('--weight')
 
-        if self._generate_all is True:
+        if self._generate_all:
             self._mystemargs.append('--generate-all')
 
         if self._fixlist is not None:
             self._mystemargs.append('--fixlist')
             self._mystemargs.append(self._fixlist)
 
-        if self._use_english_names is True:
+        if self._use_english_names:
             self._mystemargs.append('--eng-gr')
 
     def __del__(self):
