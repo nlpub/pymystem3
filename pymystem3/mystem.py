@@ -180,7 +180,7 @@ class Mystem(object):
         grammar_info=True,
         disambiguation=True,
         entire_input=True,
-        weight=True,
+        weight=False,
         generate_all=False,
         fixlist=None,
         use_english_names=False
