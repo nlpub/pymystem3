@@ -156,12 +156,14 @@ class Mystem(object):
 
     :param  mystem_bin: path to mystem binary
     :type   mystem_bin: str
-    :param  grammar_info: glue grammatical information for same lemmas in output.
+    :param  grammar_info: print grammatical information (-i)
     :type   grammar_info: bool
     :param  disambiguation: apply disambiguation (-d)
     :type   disambiguation: bool
     :param  entire_input: copy entire input to output (-c)
     :type   entire_input: bool
+    :param  glue_grammar_info: glue grammatical information for same lemmas in output (works only with grammar_info=True) (-g)
+    :type   glue_grammar_info: bool
     :param  weight: print context-independent lemma weight (--weight)
     :type   weight: bool
     :param  generate_all: generate all possible hypotheses (--generate-all)
@@ -180,6 +182,7 @@ class Mystem(object):
         grammar_info=True,
         disambiguation=True,
         entire_input=True,
+        glue_grammar_info=True,
         weight=False,
         generate_all=False,
         fixlist=None,
@@ -189,6 +192,7 @@ class Mystem(object):
         self._grammar_info = grammar_info
         self._disambiguation = disambiguation
         self._entire_input = entire_input
+        self._glue_grammar_info = glue_grammar_info
         self._weight = weight
         self._generate_all = generate_all
         self._fixlist = fixlist
@@ -208,7 +212,9 @@ class Mystem(object):
         self._mystemargs = ["--format", "json"]
 
         if self._grammar_info is True:
-            self._mystemargs.append('-gi')
+            self._mystemargs.append('-i')
+        if self._glue_grammar_info is True:
+            self._mystemargs.append('-g')
 
         if self._disambiguation is True:
             self._mystemargs.append('-d')
