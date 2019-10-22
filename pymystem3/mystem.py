@@ -166,8 +166,10 @@ class Mystem(object):
     :type   glue_grammar_info: bool
     :param  weight: print context-independent lemma weight (--weight)
     :type   weight: bool
-    :param  generate_all: generate all possible hypotheses (--generate-all)
+    :param  generate_all: generate all possible hypotheses for non-dictionary words (--generate-all)
     :type   generate_all: bool
+    :param  no_bastards: print only dictionary words (-w)
+    :type   no_bastards: bool
     :param  fixlist: path to a custom dictionary to use for analysis (--fixlist)
     :type   fixlist: str
     :param  use_english_names: english names of grammemes (--eng-gr)
@@ -186,6 +188,7 @@ class Mystem(object):
         glue_grammar_info=True,
         weight=False,
         generate_all=False,
+        no_bastards=False,
         fixlist=None,
         use_english_names=False
     ):
@@ -196,6 +199,7 @@ class Mystem(object):
         self._glue_grammar_info = glue_grammar_info
         self._weight = weight
         self._generate_all = generate_all
+        self._no_bastards = no_bastards
         self._fixlist = fixlist
         self._use_english_names = use_english_names
         self._procin = None
@@ -222,6 +226,8 @@ class Mystem(object):
 
         if self._entire_input is True:
             self._mystemargs.append('-c')
+        if self._no_bastards is True:
+            self._mystemargs.append('-w')
 
         if self._weight is True:
             self._mystemargs.append('--weight')
