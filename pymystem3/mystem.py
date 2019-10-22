@@ -408,6 +408,16 @@ class Mystem(object):
             return o['text'] if 'text' in o else None
 
     @staticmethod
+    def get_pos(token):
+        """ Get main part-of-speech tag for token. """
+        analysis = token.get('analysis')
+        if not analysis:
+            return None
+
+        gr = analysis[0].get('gr', '')
+        return gr.split('=')[0].split(',')[0]
+
+    @staticmethod
     def _process_json_output(out):
         """
         Delete all empty lines and join json output into one line
