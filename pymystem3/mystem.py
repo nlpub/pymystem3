@@ -299,10 +299,11 @@ class Mystem(object):
         """
         Make morphology analysis for a text.
 
-        :param  text:   text to analyze
         :type   text:   str
-        :param  file_path: alternative mode: if defined, file_path will be used to open utf8 text file for analysis. Argument text is not used
+        :param  text:   text to analyze
         :type   file_path: str
+        :param  file_path: alternative mode: if defined, file_path will be used to open utf8 text file for analysis.
+                           Argument text is not used in this case.
         :returns:       result of morphology analysis.
         :rtype:         dict
         """
@@ -327,10 +328,11 @@ class Mystem(object):
         """
         Make morphology analysis for a text and return list of lemmas.
 
-        :param  text:   text to analyze
         :type   text:   str
-        :param  file_path: alternative mode: if defined, file_path will be used to open utf8 text file for analysis. Argument text is not used
+        :param  text:   text to analyze
         :type   file_path: str
+        :param  file_path: alternative mode: if defined, file_path will be used to open utf8 text file for analysis.
+                           Argument text is not used in this case.
         :returns:       list of lemmas
         :rtype:         list
         """
