@@ -165,7 +165,7 @@ def _lint():
     project_python_files = [filename for filename in get_project_files()
                             if filename.endswith(b'.py')]
     retcode = subprocess.call(
-        ['flake8', '--max-complexity=14', '--ignore=E265', '--max-line-length=140'] + project_python_files)
+        ['flake8', '--max-complexity=15', '--ignore=E265', '--max-line-length=140'] + project_python_files)
     if retcode == 0:
         print_success_message('No style errors')
     return retcode
