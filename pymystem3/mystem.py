@@ -33,10 +33,12 @@ except NameError:
 
 _TARBALL_URLS = {
     'linux': {
+        '32bit': "http://download.cdn.yandex.net/mystem/mystem-3.0-linux3.5-32bit.tar.gz",
         '64bit': "http://download.cdn.yandex.net/mystem/mystem-3.1-linux-64bit.tar.gz",
     },
     'darwin': "http://download.cdn.yandex.net/mystem/mystem-3.1-macosx.tar.gz",
     'win': {
+        '32bit': "http://download.cdn.yandex.net/mystem/mystem-3.0-win7-32bit.zip",
         '64bit': "http://download.cdn.yandex.net/mystem/mystem-3.1-win-64bit.zip",
     },
 }
@@ -154,19 +156,25 @@ class Mystem(object):
 
     :param  mystem_bin: path to mystem binary
     :type   mystem_bin: str
-    :param  grammar_info: glue grammatical information for same lemmas in output.
+    :param  grammar_info: print grammatical information (-i)
     :type   grammar_info: bool
-    :param  disambiguation: apply disambiguation
+    :param  disambiguation: apply disambiguation (-d)
     :type   disambiguation: bool
-    :param  entire_input: copy entire input to output
+    :param  entire_input: copy entire input to output (-c)
     :type   entire_input: bool
-    :param  weight: print context-independent lemma weight
+    :param  glue_grammar_info: glue grammatical information for same lemmas in output (works only with grammar_info=True) (-g)
+    :type   glue_grammar_info: bool
+    :param  weight: print context-independent lemma weight (--weight)
     :type   weight: bool
-    :param  generate_all: generate all possible hypotheses
+    :param  generate_all: generate all possible hypotheses for non-dictionary words (--generate-all)
     :type   generate_all: bool
-    :param  fixlist: path to a custom dictionary to use for analysis
+    :param  no_bastards: print only dictionary words (-w)
+    :type   no_bastards: bool
+    :param  end_of_sentence: print end of sentence mark (works only with entire_input=True) (-s)
+    :type   end_of_sentence: bool
+    :param  fixlist: path to a custom dictionary to use for analysis (--fixlist)
     :type   fixlist: str
-    :param  use_english_names: english names of grammemes
+    :param  use_english_names: english names of grammemes (--eng-gr)
     :type   use_english_names: bool
 
     .. note:: Default value of :py:attr:`mystem_bin` can be overwritted by :envvar:`MYSTEM_BIN`.
@@ -178,8 +186,11 @@ class Mystem(object):
         grammar_info=True,
         disambiguation=True,
         entire_input=True,
-        weight=True,
+        glue_grammar_info=True,
+        weight=False,
         generate_all=False,
+        no_bastards=False,
+        end_of_sentence=False,
         fixlist=None,
         use_english_names=False
     ):
@@ -187,10 +198,15 @@ class Mystem(object):
         self._grammar_info = grammar_info
         self._disambiguation = disambiguation
         self._entire_input = entire_input
+        self._glue_grammar_info = glue_grammar_info
         self._weight = weight
         self._generate_all = generate_all
+        self._no_bastards = no_bastards
+        self._end_of_sentence = end_of_sentence
         self._fixlist = fixlist
         self._use_english_names = use_english_names
+
+        self._file_path = ""
         self._procin = None
         self._procout = None
         self._procout_no = None
@@ -205,26 +221,32 @@ class Mystem(object):
 
         self._mystemargs = ["--format", "json"]
 
-        if self._grammar_info is True:
-            self._mystemargs.append('-gi')
+        if self._grammar_info:
+            self._mystemargs.append('-i')
+        if self._glue_grammar_info:
+            self._mystemargs.append('-g')
 
-        if self._disambiguation is True:
+        if self._disambiguation:
             self._mystemargs.append('-d')
 
-        if self._entire_input is True:
+        if self._entire_input:
             self._mystemargs.append('-c')
+        if self._no_bastards:
+            self._mystemargs.append('-w')
+        if self._end_of_sentence:
+            self._mystemargs.append('-s')
 
-        if self._weight is True:
+        if self._weight:
             self._mystemargs.append('--weight')
 
-        if self._generate_all is True:
+        if self._generate_all:
             self._mystemargs.append('--generate-all')
 
         if self._fixlist is not None:
             self._mystemargs.append('--fixlist')
             self._mystemargs.append(self._fixlist)
 
-        if self._use_english_names is True:
+        if self._use_english_names:
             self._mystemargs.append('--eng-gr')
 
     def __del__(self):
@@ -260,7 +282,10 @@ class Mystem(object):
         self._proc = None
 
     def _start_mystem(self):
-        self._proc = subprocess.Popen([self._mystem_bin] + self._mystemargs,
+        Mystem_args = [self._mystem_bin] + self._mystemargs
+        if self._file_path:
+            Mystem_args.append(self._file_path)
+        self._proc = subprocess.Popen(Mystem_args,
                                       stdin=subprocess.PIPE,
                                       stdout=subprocess.PIPE,
                                       bufsize=0,
@@ -270,39 +295,51 @@ class Mystem(object):
         self._procout_no = self._procout.fileno()
         _set_non_blocking(self._procout)
 
-    def analyze(self, text):
+    def analyze(self, text='', file_path=None):
         """
         Make morphology analysis for a text.
 
-        :param  text:   text to analyze
         :type   text:   str
+        :param  text:   text to analyze
+        :type   file_path: str
+        :param  file_path: alternative mode: if defined, file_path will be used to open utf8 text file for analysis.
+                           Argument text is not used in this case.
         :returns:       result of morphology analysis.
         :rtype:         dict
         """
 
         result = []
-        for line in text.splitlines():
-            try:
-                result.extend(self._analyze_impl(line))
-            except broken_pipe:
-                self.close()
-                self.start()
-                result.extend(self._analyze_impl(line))
+        self._file_path = file_path
+
+        if self._file_path:
+            # file path will be used and passed to mystem.exe
+            result.extend(self._analyze_impl(''))
+        else:
+            for line in text.splitlines():
+                try:
+                    result.extend(self._analyze_impl(line))
+                except broken_pipe:
+                    self.close()
+                    self.start()
+                    result.extend(self._analyze_impl(line))
         return result
 
-    def lemmatize(self, text):
+    def lemmatize(self, text='', file_path=None):
         """
         Make morphology analysis for a text and return list of lemmas.
 
-        :param  text:   text to analyze
         :type   text:   str
+        :param  text:   text to analyze
+        :type   file_path: str
+        :param  file_path: alternative mode: if defined, file_path will be used to open utf8 text file for analysis.
+                           Argument text is not used in this case.
         :returns:       list of lemmas
         :rtype:         list
         """
 
         need_encode = (sys.version_info[0] < 3 and isinstance(text, str))
 
-        infos = self.analyze(text)
+        infos = self.analyze(text, file_path=file_path)
         lemmas = list(ifilter(None, imap(self._get_lemma, infos)))
 
         if need_encode is True:
@@ -318,9 +355,10 @@ class Mystem(object):
             if self._proc is None:
                 self._start_mystem()
 
-            self._procin.write(text)
-            self._procin.write(_NL)
-            self._procin.flush()
+            if not self._file_path:
+                self._procin.write(text)
+                self._procin.write(_NL)
+                self._procin.flush()
 
             sio = StringIO()
             out = None
@@ -330,13 +368,14 @@ class Mystem(object):
                 try:
                     out = self._procout.read()
                     sio.write(out)
-                    obj = json.loads(sio.getvalue().decode('utf-8'))
+                    out = sio.getvalue().decode('utf-8')
+                    obj = self._process_json_output(out)
                     break
                 except (IOError, ValueError):
                     rd, _, _ = select.select([self._procout_no], [], [], 30)
                     if self._procout_no not in rd:
                         raise RuntimeError("Problem has been occured. Current state:\ntext:\n%r\nout:\n%r\nsio:\n%r" %
-                                           (text, out, sio.getvalue()))
+                                           (text[0:2000], out[0:2000], sio.getvalue()))
 
             return obj
     else:
@@ -347,17 +386,18 @@ class Mystem(object):
             if self._proc is None:
                 self._start_mystem()
 
-            self._procin.write(text)
-            self._procin.write(_NL)
+            if not self._file_path:
+                self._procin.write(text)
+                self._procin.write(_NL)
 
             out, _ = self._proc.communicate()
             self._proc = None
             try:
-                #obj = json.loads(out)
-                obj = json.loads(out.decode('utf-8'))
+                out = out.decode('utf-8')
+                obj = self._process_json_output(out)
             except (IOError, ValueError):
                 raise RuntimeError("Problem has been occured. Current state:\ntext:\n%r\nout:\n%r" %
-                                   (text, out))
+                                   (text[0:2000], out[0:2000]))
 
             return obj
 
@@ -367,3 +407,39 @@ class Mystem(object):
             return o['analysis'][0]['lex']
         except (KeyError, IndexError):
             return o['text'] if 'text' in o else None
+
+    @staticmethod
+    def get_pos(token):
+        """ Get main part-of-speech tag for token. """
+        analysis = token.get('analysis')
+        if not analysis:
+            return None
+
+        gr = analysis[0].get('gr', '')
+        return gr.split('=')[0].split(',')[0]
+
+    @staticmethod
+    def _process_json_output(out):
+        """
+        Delete all empty lines and join json output into one line
+        Line breaks occur if the file path goes to the analysis function (file_path parameter is used)
+        """
+        obj = []
+        for line in out.split('\n'):   # really, on windows separator is '\r\n', but that is not a problem
+            if line:
+                obj.extend(json.loads(line))
+        return obj
+
+    @staticmethod
+    def get_printable_repr(token):
+        """ Get string with results of Mystem parsing for token in human readable representation. """
+
+        if 'analysis' not in token:
+            return 'sep: ' + repr(token['text'])
+
+        hypotheses = token['analysis']
+        s = 'lex: {:13} [{}]:'.format(repr(token['text']), len(hypotheses))
+        variants = (' {}:{}:{}:{}'.format(h['lex'], h.get('qual', ''), h.get('wt', ''), h.get('gr', '')) for h in hypotheses)
+        tab = len(s)
+        s += ('\n' + ' ' * tab).join(variants)
+        return s
