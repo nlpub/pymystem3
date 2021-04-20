@@ -3,7 +3,7 @@
 
 # Testing
 pytest==3.2.3
-py==1.4.34
+py==1.10.0
 mock==1.0.1
 
 # Linting
