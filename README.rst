@@ -53,12 +53,12 @@ Lemmatization
 
 ::
 
-    >>> from pymystem3 import Mystem
-    >>> text = "Красивая мама красиво мыла раму"
-    >>> m = Mystem()
-    >>> lemmas = m.lemmatize(text)
-    >>> print(''.join(lemmas))
-    красивый мама красиво мыть рама
+    from pymystem3 import Mystem
+    text = "Красивая мама красиво мыла раму"
+    m = Mystem()
+    lemmas = m.lemmatize(text)
+    print(''.join(lemmas))
+    # prints: красивый мама красиво мыть рама
 
 Getting grammatical information and lemmas.
 
